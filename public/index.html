@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#11100f"><title>KCA — Socle technique</title>
+<style>
+:root{color-scheme:dark;--bg:#0d0d0f;--panel:#18181b;--gold:#e4b84d;--muted:#b8b2a9;--line:#39363a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% 0,#332817,transparent 35%),var(--bg);color:#f8f4eb;font:16px/1.5 system-ui,sans-serif}
+main{width:min(920px,100% - 32px);margin:auto;padding:36px 0 60px}.brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.5px}.mark{display:grid;place-items:center;width:48px;height:48px;border:2px solid var(--gold);border-radius:13px;color:var(--gold);font-size:24px}.eyebrow{color:var(--gold);font-weight:800;letter-spacing:2px;font-size:12px;margin-top:42px}h1{font-size:clamp(38px,8vw,68px);line-height:1.02;letter-spacing:-2px;margin:12px 0}h1 span{color:var(--gold)}p{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:25px}.card{border:1px solid var(--line);background:#18181be8;border-radius:16px;padding:18px}.card h2{font-size:18px;margin:0 0 8px}.tag{color:var(--gold);font-size:12px;font-weight:800}.status{display:inline-block;padding:5px 9px;border:1px solid var(--line);border-radius:999px;font-size:12px;color:var(--muted)}button{background:var(--gold);color:#18130a;border:0;border-radius:10px;padding:11px 14px;font-weight:850;cursor:pointer}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#09090a;border:1px solid var(--line);border-radius:12px;padding:14px;color:#d7d1c7;font-size:13px}.foot{font-size:12px;border-top:1px solid var(--line);margin-top:28px;padding-top:18px}@media(max-width:600px){.grid{grid-template-columns:1fr}main{padding-top:24px}}
+</style></head>
+<body><main>
+<div class="brand"><div class="mark">K</div><div>KINGCOMICS_EN_ACTION<br><span style="color:var(--muted);font-size:11px;letter-spacing:2px">KCA · STARTER TECHNIQUE</span></div></div>
+<div class="eyebrow">MODULE 25 · SOCLE DU SERVEUR</div>
+<h1>La scène est à toi.<br><span>Construisons KCA.</span></h1>
+<p>Première structure technique : interface légère, API HTTP, contrôle de santé et connexion préparée pour PostgreSQL.</p>
+<div class="grid">
+<section class="card"><span class="tag">API</span><h2>État du serveur</h2><p id="serverState">Vérification…</p><button id="check">Tester l’API</button></section>
+<section class="card"><span class="tag">BASE DE DONNÉES</span><h2>PostgreSQL</h2><p id="dbState">État non vérifié.</p><span class="status">Mode développement</span></section>
+<section class="card"><span class="tag">01 / COMPTES</span><h2>Inscription et connexion</h2><p>Prochain module : validation des entrées, mots de passe hachés, sessions sécurisées et vérification d’e-mail.</p></section>
+<section class="card"><span class="tag">02 / COMMUNAUTÉ</span><h2>Publications et battles</h2><p>Les fonctionnalités seront reliées à la base après mise en place des comptes et des permissions.</p></section>
+</div>
+<h2 style="margin-top:28px">Réponse technique</h2><pre id="response">Appuie sur « Tester l’API » pour vérifier le serveur.</pre>
+<div class="foot">Démo de développement — aucun compte réel, vote ou publication n’est encore enregistré. Ne déployez pas ce starter tel quel en production.</div>
+</main>
+<script>
+async function check(){const s=document.getElementById('serverState'),d=document.getElementById('dbState'),r=document.getElementById('response');s.textContent='Requête en cours…';try{const res=await fetch('/api/health');const data=await res.json();s.textContent=data.status==='ok'?'API opérationnelle':'API joignable, configuration à terminer';d.textContent=data.database==='connected'?'PostgreSQL connecté':data.database==='not_configured'?'DATABASE_URL non configurée':'PostgreSQL indisponible';r.textContent=JSON.stringify(data,null,2)}catch(e){s.textContent='API non joignable';d.textContent='Démarre le serveur Node.js pour tester PostgreSQL.';r.textContent='Impossible de joindre /api/health. Vérifie que le serveur tourne et que tu ouvres http://localhost:3000.'}}
+document.getElementById('check').addEventListener('click',check);check();
+</script></body></html>
